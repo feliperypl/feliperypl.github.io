@@ -246,7 +246,7 @@
     const ring = document.getElementById('cursorRing');
     if (!dot || !ring) return;
 
-    const interactiveSelector = 'a, button, .bento-card, .stack-items li, .tag';
+    const interactiveSelector = 'a, button, .bento-card, .stack-items li, .tag, .hero-portrait-stage';
 
     let mouseX = -100;
     let mouseY = -100;
@@ -416,6 +416,116 @@
   }
 
   /* ========================================================================
+     7. RETRATO EDITORIAL DO HERO (TILT 3D SUTIL, PARALLAX & LUZ ESPECULAR)
+     ======================================================================== */
+  function initHeroPortrait() {
+    if (!hasFinePointer || prefersReducedMotion) return;
+
+    const stage = document.getElementById('heroPortrait');
+    if (!stage) return;
+
+    const MAX_TILT = 5.5; // graus
+    const MAX_SHIFT = 8;  // pixels
+
+    let targetRx = 0;
+    let targetRy = 0;
+    let targetPx = 0;
+    let targetPy = 0;
+    let targetMx = 50;
+    let targetMy = 50;
+
+    let currentRx = 0;
+    let currentRy = 0;
+    let currentPx = 0;
+    let currentPy = 0;
+    let currentMx = 50;
+    let currentMy = 50;
+
+    let rafId = null;
+    let isHovering = false;
+
+    function tick() {
+      const ease = isHovering ? 0.14 : 0.1;
+
+      currentRx += (targetRx - currentRx) * ease;
+      currentRy += (targetRy - currentRy) * ease;
+      currentPx += (targetPx - currentPx) * ease;
+      currentPy += (targetPy - currentPy) * ease;
+      currentMx += (targetMx - currentMx) * 0.18;
+      currentMy += (targetMy - currentMy) * 0.18;
+
+      stage.style.setProperty('--rx', `${currentRx.toFixed(2)}deg`);
+      stage.style.setProperty('--ry', `${currentRy.toFixed(2)}deg`);
+      stage.style.setProperty('--px', `${currentPx.toFixed(2)}px`);
+      stage.style.setProperty('--py', `${currentPy.toFixed(2)}px`);
+      stage.style.setProperty('--mx', `${currentMx.toFixed(1)}%`);
+      stage.style.setProperty('--my', `${currentMy.toFixed(1)}%`);
+
+      const settled =
+        Math.abs(targetRx - currentRx) < 0.02 &&
+        Math.abs(targetRy - currentRy) < 0.02 &&
+        Math.abs(targetPx - currentPx) < 0.05 &&
+        Math.abs(targetPy - currentPy) < 0.05;
+
+      if (settled && !isHovering) {
+        stage.style.setProperty('--rx', '0deg');
+        stage.style.setProperty('--ry', '0deg');
+        stage.style.setProperty('--px', '0px');
+        stage.style.setProperty('--py', '0px');
+        stage.classList.remove('is-tilting');
+        rafId = null;
+        return;
+      }
+
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function startLoop() {
+      if (!rafId) {
+        rafId = requestAnimationFrame(tick);
+      }
+    }
+
+    stage.addEventListener('pointerenter', () => {
+      isHovering = true;
+      stage.classList.add('is-tilting');
+      startLoop();
+    });
+
+    stage.addEventListener('pointermove', (e) => {
+      const rect = stage.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      const normX = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
+      const normY = Math.min(Math.max((e.clientY - rect.top) / rect.height, 0), 1);
+
+      // Centro = 0, bordas = -1..+1
+      const dx = (normX - 0.5) * 2;
+      const dy = (normY - 0.5) * 2;
+
+      targetRx = -dy * MAX_TILT;
+      targetRy = dx * MAX_TILT;
+      targetPx = -dx * MAX_SHIFT;
+      targetPy = -dy * MAX_SHIFT;
+      targetMx = normX * 100;
+      targetMy = normY * 100;
+
+      startLoop();
+    }, { passive: true });
+
+    stage.addEventListener('pointerleave', () => {
+      isHovering = false;
+      targetRx = 0;
+      targetRy = 0;
+      targetPx = 0;
+      targetPy = 0;
+      targetMx = 50;
+      targetMy = 50;
+      startLoop();
+    });
+  }
+
+  /* ========================================================================
      INICIALIZAÇÃO
      ======================================================================== */
   document.addEventListener('DOMContentLoaded', () => {
@@ -425,5 +535,6 @@
     initCustomCursor();
     initActiveNav();
     initCopyEmail();
+    initHeroPortrait();
   });
 })();
