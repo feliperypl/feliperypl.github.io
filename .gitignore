@@ -1,0 +1,6 @@
+# Arquivos de origem pesados (Photoshop)
+*.psd
+
+# Arquivos temporários de sistema
+.DS_Store
+Thumbs.db
