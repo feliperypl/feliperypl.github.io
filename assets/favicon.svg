@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="halo" cx="76%" cy="22%" r="72%">
+      <stop offset="0%" stop-color="#C5A059" stop-opacity="0.24"/>
+      <stop offset="55%" stop-color="#D46A4C" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#080808" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DFC180"/>
+      <stop offset="55%" stop-color="#C5A059"/>
+      <stop offset="100%" stop-color="#9A7938"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fundo dark editorial -->
+  <rect width="64" height="64" rx="13" fill="#080808"/>
+  <rect width="64" height="64" rx="13" fill="url(#halo)"/>
+
+  <!-- Moldura arquitetônica dourada -->
+  <rect x="3.5" y="3.5" width="57" height="57" rx="10" fill="none" stroke="url(#gold)" stroke-opacity="0.45" stroke-width="1.25"/>
+
+  <!-- Cantoneiras editoriais sutis -->
+  <path d="M9.5 14.5 V9.5 H14.5 M49.5 9.5 H54.5 V14.5 M9.5 49.5 V54.5 H14.5 M49.5 54.5 H54.5 V49.5"
+        fill="none" stroke="#C5A059" stroke-opacity="0.85" stroke-width="1.2" stroke-linecap="square"/>
+
+  <!-- Monograma editorial FR -->
+  <g transform="translate(-0.75, 0)">
+    <!-- F (serifado alto contraste) -->
+    <path d="
+      M 13.5 19
+      H 29.5
+      V 22.8
+      H 28.1
+      C 27.4 21.1 26.2 20.5 23.6 20.5
+      H 20.2
+      V 31.1
+      H 23.8
+      C 25.4 31.1 26.1 30.6 26.5 29.2
+      H 27.6
+      V 35.1
+      H 26.5
+      C 26.1 33.6 25.4 33.1 23.8 33.1
+      H 20.2
+      V 42.3
+      C 20.2 43.3 20.9 43.6 22.7 43.7
+      V 45
+      H 13.5
+      V 43.7
+      C 15.1 43.6 15.7 43.2 15.7 42.2
+      V 21.8
+      C 15.7 20.7 15.1 20.3 13.5 20.2
+      Z" fill="#F2EFE9"/>
+
+    <!-- R (serifado alto contraste) -->
+    <path d="
+      M 31.8 19
+      H 42.4
+      C 47.4 19 50.4 21.3 50.4 25.4
+      C 50.4 28.8 48.2 31.2 44.3 32.1
+      L 49.3 41.9
+      C 50.1 43.3 50.7 43.6 52 43.7
+      V 45
+      H 45.7
+      L 40.3 33.3
+      H 38.4
+      V 42.2
+      C 38.4 43.2 39 43.6 40.5 43.7
+      V 45
+      H 31.8
+      V 43.7
+      C 33.4 43.6 34 43.2 34 42.2
+      V 21.8
+      C 34 20.7 33.4 20.3 31.8 20.2
+      Z
+      M 38.4 20.7
+      V 31.5
+      H 41.2
+      C 44.4 31.5 46 29.5 46 26
+      C 46 22.3 44.3 20.7 41.1 20.7
+      Z" fill="url(#gold)"/>
+  </g>
+</svg>
